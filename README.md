@@ -1,6 +1,6 @@
 # Hiera: A Hierarchical Vision Transformer without the Bells-and-Whistles
 
-This is the official implementation for our ICML 2023 Oral paper:  
+This is a *fork* of the official implementation of the ICML 2023 Oral paper:  
 **[Hiera: A Hierarchical Vision Transformer without the Bells-and-Whistles][arxiv-link]**  
 [Chaitanya Ryali](https://scholar.google.com/citations?user=4LWx24UAAAAJ)\*,
 [Yuan-Ting Hu](https://scholar.google.com/citations?user=aMpbemkAAAAJ)\*,
@@ -18,6 +18,8 @@ This is the official implementation for our ICML 2023 Oral paper:
 _[ICML '23 Oral][icml-link]_ | _[GitHub](https://github.com/facebookresearch/hiera)_ | _[arXiv][arxiv-link]_ | _[BibTeX](https://github.com/facebookresearch/hiera#citation)_
 
 \*: Equal contribution.
+
+**FORK DETAILS:** The original model was used for classification, this fork attempts to modify the architecture to accommodate regression tasks and introduce concepts from the ChannelViT: https://github.com/insitro/ChannelViT/
 
 ## What is Hiera?
 **Hiera** is a _hierarchical_ vision transformer that is fast, powerful, and, above all, _simple_. It outperforms the state-of-the-art across a wide array of image and video tasks _while being much faster_. 

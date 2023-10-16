@@ -8,10 +8,10 @@
 from setuptools import find_packages, setup
 
 setup(
-    name="hiera-transformer",
+    name="hiera-transformer-regression",
     version="0.1.2",
     author="Chaitanya Ryali, Daniel Bolya",
-    url="https://github.com/facebookresearch/hiera",
+    url="https://github.com/austinv11/hiera-regression",
     description="A fast, powerful, and simple hierarchical vision transformer",
     install_requires=["torch>=1.8.1", "timm>=0.4.12", "tqdm"],
     packages=find_packages(exclude=("examples", "build")),

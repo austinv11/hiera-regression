@@ -435,101 +435,101 @@ class Hiera(nn.Module):
         return x
 
 
-# Image models
-
-@pretrained_model({
-    "mae_in1k_ft_in1k": "https://dl.fbaipublicfiles.com/hiera/hiera_tiny_224.pth",
-    "mae_in1k": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_tiny_224.pth",
-}, default="mae_in1k_ft_in1k")
-def hiera_tiny_224(**kwdargs):
-    return Hiera(embed_dim=96, num_heads=1, stages=(1, 2, 7, 2), **kwdargs)
-
-
-@pretrained_model({
-    "mae_in1k_ft_in1k": "https://dl.fbaipublicfiles.com/hiera/hiera_small_224.pth",
-    "mae_in1k": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_small_224.pth",
-}, default="mae_in1k_ft_in1k")
-def hiera_small_224(**kwdargs):
-    return Hiera(embed_dim=96, num_heads=1, stages=(1, 2, 11, 2), **kwdargs)
-
-
-@pretrained_model({
-    "mae_in1k_ft_in1k": "https://dl.fbaipublicfiles.com/hiera/hiera_base_224.pth",
-    "mae_in1k": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_base_224.pth",
-}, default="mae_in1k_ft_in1k")
-def hiera_base_224(**kwdargs):
-    return Hiera(embed_dim=96, num_heads=1, stages=(2, 3, 16, 3), **kwdargs)
-
-
-@pretrained_model({
-    "mae_in1k_ft_in1k": "https://dl.fbaipublicfiles.com/hiera/hiera_base_plus_224.pth",
-    "mae_in1k": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_base_plus_224.pth",
-}, default="mae_in1k_ft_in1k")
-def hiera_base_plus_224(**kwdargs):
-    return Hiera(embed_dim=112, num_heads=2, stages=(2, 3, 16, 3), **kwdargs)
-
-
-@pretrained_model({
-    "mae_in1k_ft_in1k": "https://dl.fbaipublicfiles.com/hiera/hiera_large_224.pth",
-    "mae_in1k": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_large_224.pth",
-}, default="mae_in1k_ft_in1k")
-def hiera_large_224(**kwdargs):
-    return Hiera(embed_dim=144, num_heads=2, stages=(2, 6, 36, 4), **kwdargs)
-
-
-@pretrained_model({
-    "mae_in1k_ft_in1k": "https://dl.fbaipublicfiles.com/hiera/hiera_huge_224.pth",
-    "mae_in1k": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_huge_224.pth",
-}, default="mae_in1k_ft_in1k")
-def hiera_huge_224(**kwdargs):
-    return Hiera(embed_dim=256, num_heads=4, stages=(2, 6, 36, 4), **kwdargs)
-
-
-# Video models
-
-@pretrained_model({
-    "mae_k400_ft_k400": "https://dl.fbaipublicfiles.com/hiera/hiera_base_16x224.pth",
-    "mae_k400": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_base_16x224.pth",
-}, default="mae_k400_ft_k400")
-def hiera_base_16x224(num_classes: int = 400, **kwdargs):
-    return Hiera(
-        num_classes=num_classes,  # K400 has 400 classes
-        input_size=(16, 224, 224),
-        q_stride=(1, 2, 2),
-        mask_unit_size=(1, 8, 8),
-        patch_kernel=(3, 7, 7),
-        patch_stride=(2, 4, 4),
-        patch_padding=(1, 3, 3),
-        sep_pos_embed=True,
-        **kwdargs
-    )
-
-
-@pretrained_model({
-    "mae_k400_ft_k400": "https://dl.fbaipublicfiles.com/hiera/hiera_base_plus_16x224.pth",
-    "mae_k400": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_base_plus_16x224.pth",
-}, default="mae_k400_ft_k400")
-def hiera_base_plus_16x224(**kwdargs):
-    return hiera_base_16x224(
-        embed_dim=112, num_heads=2, stages=(2, 3, 16, 3), **kwdargs
-    )
-
-
-@pretrained_model({
-    "mae_k400_ft_k400": "https://dl.fbaipublicfiles.com/hiera/hiera_large_16x224.pth",
-    "mae_k400": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_large_16x224.pth",
-}, default="mae_k400_ft_k400")
-def hiera_large_16x224(**kwdargs):
-    return hiera_base_16x224(
-        embed_dim=144, num_heads=2, stages=(2, 6, 36, 4), **kwdargs
-    )
-
-
-@pretrained_model({
-    "mae_k400_ft_k400": "https://dl.fbaipublicfiles.com/hiera/hiera_huge_16x224.pth",
-    "mae_k400": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_huge_16x224.pth",
-}, default="mae_k400_ft_k400")
-def hiera_huge_16x224(**kwdargs):
-    return hiera_base_16x224(
-        embed_dim=256, num_heads=4, stages=(2, 6, 36, 4), **kwdargs
-    )
+# # Image models
+#
+# @pretrained_model({
+#     "mae_in1k_ft_in1k": "https://dl.fbaipublicfiles.com/hiera/hiera_tiny_224.pth",
+#     "mae_in1k": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_tiny_224.pth",
+# }, default="mae_in1k_ft_in1k")
+# def hiera_tiny_224(**kwdargs):
+#     return Hiera(embed_dim=96, num_heads=1, stages=(1, 2, 7, 2), **kwdargs)
+#
+#
+# @pretrained_model({
+#     "mae_in1k_ft_in1k": "https://dl.fbaipublicfiles.com/hiera/hiera_small_224.pth",
+#     "mae_in1k": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_small_224.pth",
+# }, default="mae_in1k_ft_in1k")
+# def hiera_small_224(**kwdargs):
+#     return Hiera(embed_dim=96, num_heads=1, stages=(1, 2, 11, 2), **kwdargs)
+#
+#
+# @pretrained_model({
+#     "mae_in1k_ft_in1k": "https://dl.fbaipublicfiles.com/hiera/hiera_base_224.pth",
+#     "mae_in1k": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_base_224.pth",
+# }, default="mae_in1k_ft_in1k")
+# def hiera_base_224(**kwdargs):
+#     return Hiera(embed_dim=96, num_heads=1, stages=(2, 3, 16, 3), **kwdargs)
+#
+#
+# @pretrained_model({
+#     "mae_in1k_ft_in1k": "https://dl.fbaipublicfiles.com/hiera/hiera_base_plus_224.pth",
+#     "mae_in1k": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_base_plus_224.pth",
+# }, default="mae_in1k_ft_in1k")
+# def hiera_base_plus_224(**kwdargs):
+#     return Hiera(embed_dim=112, num_heads=2, stages=(2, 3, 16, 3), **kwdargs)
+#
+#
+# @pretrained_model({
+#     "mae_in1k_ft_in1k": "https://dl.fbaipublicfiles.com/hiera/hiera_large_224.pth",
+#     "mae_in1k": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_large_224.pth",
+# }, default="mae_in1k_ft_in1k")
+# def hiera_large_224(**kwdargs):
+#     return Hiera(embed_dim=144, num_heads=2, stages=(2, 6, 36, 4), **kwdargs)
+#
+#
+# @pretrained_model({
+#     "mae_in1k_ft_in1k": "https://dl.fbaipublicfiles.com/hiera/hiera_huge_224.pth",
+#     "mae_in1k": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_huge_224.pth",
+# }, default="mae_in1k_ft_in1k")
+# def hiera_huge_224(**kwdargs):
+#     return Hiera(embed_dim=256, num_heads=4, stages=(2, 6, 36, 4), **kwdargs)
+#
+#
+# # Video models
+#
+# @pretrained_model({
+#     "mae_k400_ft_k400": "https://dl.fbaipublicfiles.com/hiera/hiera_base_16x224.pth",
+#     "mae_k400": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_base_16x224.pth",
+# }, default="mae_k400_ft_k400")
+# def hiera_base_16x224(num_classes: int = 400, **kwdargs):
+#     return Hiera(
+#         num_classes=num_classes,  # K400 has 400 classes
+#         input_size=(16, 224, 224),
+#         q_stride=(1, 2, 2),
+#         mask_unit_size=(1, 8, 8),
+#         patch_kernel=(3, 7, 7),
+#         patch_stride=(2, 4, 4),
+#         patch_padding=(1, 3, 3),
+#         sep_pos_embed=True,
+#         **kwdargs
+#     )
+#
+#
+# @pretrained_model({
+#     "mae_k400_ft_k400": "https://dl.fbaipublicfiles.com/hiera/hiera_base_plus_16x224.pth",
+#     "mae_k400": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_base_plus_16x224.pth",
+# }, default="mae_k400_ft_k400")
+# def hiera_base_plus_16x224(**kwdargs):
+#     return hiera_base_16x224(
+#         embed_dim=112, num_heads=2, stages=(2, 3, 16, 3), **kwdargs
+#     )
+#
+#
+# @pretrained_model({
+#     "mae_k400_ft_k400": "https://dl.fbaipublicfiles.com/hiera/hiera_large_16x224.pth",
+#     "mae_k400": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_large_16x224.pth",
+# }, default="mae_k400_ft_k400")
+# def hiera_large_16x224(**kwdargs):
+#     return hiera_base_16x224(
+#         embed_dim=144, num_heads=2, stages=(2, 6, 36, 4), **kwdargs
+#     )
+#
+#
+# @pretrained_model({
+#     "mae_k400_ft_k400": "https://dl.fbaipublicfiles.com/hiera/hiera_huge_16x224.pth",
+#     "mae_k400": "https://dl.fbaipublicfiles.com/hiera/mae_hiera_huge_16x224.pth",
+# }, default="mae_k400_ft_k400")
+# def hiera_huge_16x224(**kwdargs):
+#     return hiera_base_16x224(
+#         embed_dim=256, num_heads=4, stages=(2, 6, 36, 4), **kwdargs
+#     )

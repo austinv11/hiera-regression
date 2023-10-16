@@ -41,6 +41,7 @@ class MaskedAutoencoderHiera(Hiera):
 
     def __init__(
         self,
+        out_chans: int,  # The number of channels the final image should contain when not pretraining
         in_chans: int = 3,
         patch_stride: Tuple[int, ...] = (4, 4),
         mlp_ratio: float = 4.0,
@@ -59,6 +60,7 @@ class MaskedAutoencoderHiera(Hiera):
         )
 
         del self.norm, self.head
+        self.pretraining = True
         encoder_dim_out = self.blocks[-1].dim_out
         self.encoder_norm = norm_layer(encoder_dim_out)
         self.mask_unit_spatial_shape_final = [
@@ -122,6 +124,10 @@ class MaskedAutoencoderHiera(Hiera):
             decoder_embed_dim,
             (self.pred_stride ** min(2, len(self.q_stride))) * in_chans,
         )  # predictor
+        self.decoder_final = nn.Linear(
+            decoder_embed_dim,
+            (self.pred_stride ** min(2, len(self.q_stride))) * out_chans
+        )  # Tuning decoder
         # --------------------------------------------------------------------------
 
         self.initialize_weights()
@@ -143,6 +149,10 @@ class MaskedAutoencoderHiera(Hiera):
         elif isinstance(m, nn.LayerNorm):
             nn.init.constant_(m.bias, 0)
             nn.init.constant_(m.weight, 1.0)
+
+    def enable_downstream_regression(self):
+        # Transition from auto-encoding pre-training to regression training
+        self.pretraining = False
 
     def get_pixel_label_2d(
         self, input_img: torch.Tensor, mask: torch.Tensor, norm: bool = True
@@ -248,7 +258,10 @@ class MaskedAutoencoderHiera(Hiera):
         x = self.decoder_norm(x)
 
         # Predictor projection
-        x = self.decoder_pred(x)
+        if self.pretraining:
+            x = self.decoder_pred(x)
+        else:
+            x = self.decoder_final(x)  # TODO: Automatic re-shaping?
 
         return x, mask
 

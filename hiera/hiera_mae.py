@@ -49,6 +49,7 @@ class MaskedAutoencoderHiera(Hiera):
         decoder_depth: int = 8,
         decoder_num_heads: int = 16,
         norm_layer: nn.Module = partial(nn.LayerNorm, eps=1e-6),
+        input_size: Tuple[int, ...] = (224, 224),
         **kwdargs,
     ):
         super().__init__(
@@ -56,6 +57,7 @@ class MaskedAutoencoderHiera(Hiera):
             patch_stride=patch_stride,
             mlp_ratio=mlp_ratio,
             norm_layer=norm_layer,
+            input_size=input_size,
             **kwdargs,
         )
 
@@ -124,10 +126,14 @@ class MaskedAutoencoderHiera(Hiera):
             decoder_embed_dim,
             (self.pred_stride ** min(2, len(self.q_stride))) * in_chans,
         )  # predictor
-        self.decoder_final = nn.Linear(
-            decoder_embed_dim,
-            (self.pred_stride ** min(2, len(self.q_stride))) * out_chans
-        )  # Tuning decoder
+
+        self.decoder_final = nn.Sequential(
+            nn.Linear(
+                decoder_embed_dim,
+                math.prod(input_size) * out_chans
+            ),  # Flattened output, now reshape to be channels x pixels x pixels
+            nn.Unflatten(1, (out_chans, *input_size))
+        )
         # --------------------------------------------------------------------------
 
         self.initialize_weights()
@@ -300,7 +306,10 @@ class MaskedAutoencoderHiera(Hiera):
         )  # pred_mask is mask at resolution of *prediction*
 
         # Toggle mask, to generate labels for *masked* tokens
-        return *self.forward_loss(x, pred, ~pred_mask), mask
+        if self.pretraining:
+            return *self.forward_loss(x, pred, ~pred_mask), mask
+        else:
+            return pred, pred_mask
 
 
 

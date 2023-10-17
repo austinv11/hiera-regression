@@ -128,8 +128,7 @@ class MaskedAutoencoderHiera(Hiera):
         )  # predictor
 
         self.decoder_final = nn.Sequential(
-            nn.Linear(
-                decoder_embed_dim,
+            nn.LazyLinear(
                 math.prod(input_size) * out_chans
             ),  # Flattened output, now reshape to be channels x pixels x pixels
             nn.Unflatten(1, (out_chans, *input_size))

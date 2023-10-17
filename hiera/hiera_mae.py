@@ -63,6 +63,8 @@ class MaskedAutoencoderHiera(Hiera):
 
         del self.norm, self.head
         self.pretraining = True
+        self.input_size = input_size
+        self.out_chans = out_chans
         encoder_dim_out = self.blocks[-1].dim_out
         self.encoder_norm = norm_layer(encoder_dim_out)
         self.mask_unit_spatial_shape_final = [
@@ -127,12 +129,7 @@ class MaskedAutoencoderHiera(Hiera):
             (self.pred_stride ** min(2, len(self.q_stride))) * in_chans,
         )  # predictor
 
-        self.decoder_final = nn.Sequential(
-            nn.LazyLinear(
-                math.prod(input_size) * out_chans
-            ),  # Flattened output, now reshape to be channels x pixels x pixels
-            nn.Unflatten(1, (out_chans, *input_size))
-        )
+        self.decoder_final = None
         # --------------------------------------------------------------------------
 
         self.initialize_weights()
@@ -158,6 +155,14 @@ class MaskedAutoencoderHiera(Hiera):
     def enable_downstream_regression(self):
         # Transition from auto-encoding pre-training to regression training
         self.pretraining = False
+        # Note this is lazily initialized since MAE doesn't need nearly as many parameters.
+        self.decoder_final = nn.Sequential(
+            nn.Linear(
+                math.prod(self.input_size) * self.out_chans
+            ),  # Flattened output, now reshape to be channels x pixels x pixels
+            nn.Unflatten(1, (self.out_chans, *self.input_size))
+        )
+        self.decoder_final.apply(self._mae_init_weights)
 
     def get_pixel_label_2d(
         self, input_img: torch.Tensor, mask: torch.Tensor, norm: bool = True
